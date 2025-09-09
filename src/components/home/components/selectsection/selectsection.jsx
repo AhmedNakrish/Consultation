@@ -1,5 +1,5 @@
 import React from "react";
-
+import Image from "next/image";
 const Selectsection = () => {
   return (
     <>
@@ -117,10 +117,12 @@ const Selectsection = () => {
               data-aos-delay={500}
             >
               <div className="icon-bg">
-                <img
-                  src="assets/images/check.gif"
+                <Image
+                  src="/assets/images/check.gif"
                   alt="gif check"
                   className="check-gif"
+                  width={320}
+                  height={266}
                 />
               </div>
             </div>

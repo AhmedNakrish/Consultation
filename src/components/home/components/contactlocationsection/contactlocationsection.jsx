@@ -42,7 +42,7 @@ const Contactlocationsection = () => {
               data-aos-duration={1000}
             >
               <button className="btn btn-gold">Request Consultation</button>
-              <a href="contact.php" className="btn btn-outline-contact">
+              <a href="/en/contact" className="btn btn-outline-contact">
                 Contact Us
               </a>
             </div>

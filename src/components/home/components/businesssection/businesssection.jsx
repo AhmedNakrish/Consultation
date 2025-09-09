@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Link from 'next/link'
 const Businesssection = () => {
   return (
     <>
@@ -47,7 +47,7 @@ const Businesssection = () => {
           <li><span className="check check-blue"><i className="fa-solid fa-circle-check" /></span> We provide comprehensive
             advisory services.</li>
         </ul>
-        <a href="payment.php" className="card-btn btn-blue">Request Consultation</a>
+        <Link href="payment.php" className="card-btn btn-blue">Request Consultation</Link>
       </div>
       {/* Card 2 */}
       <div className="business-card card-green" data-aos="fade-up" data-aos-delay={200} data-aos-duration={1000}>
@@ -74,7 +74,7 @@ const Businesssection = () => {
           <li><span className="check check-green"><i className="fa-solid fa-circle-check" /></span> We provide comprehensive
             advisory services.</li>
         </ul>
-        <a href="payment.php" className="card-btn btn-green">Request Consultation</a>
+        <Link href="/en/payment" className="card-btn btn-green">Request Consultation</Link>
       </div>
       {/* Card 3 */}
       <div className="business-card card-gold" data-aos="fade-up" data-aos-delay={300} data-aos-duration={1000}>
@@ -101,7 +101,7 @@ const Businesssection = () => {
           <li><span className="check check-gold"><i className="fa-solid fa-circle-check" /></span> We provide comprehensive
             advisory services.</li>
         </ul>
-        <a href="payment.php" className="card-btn btn-gold">Request Consultation</a>
+        <Link href="/en/payment" className="card-btn btn-gold">Request Consultation</Link>
       </div>
     </div>
   </div>

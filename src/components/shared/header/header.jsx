@@ -1,6 +1,10 @@
+"use client";
+import React, { useRef } from "react";
+import Modelrequest from "@/components/home/components/herosection/modelrequest";
 import Link from "next/link";
 import Image from "next/image";
 export default function Header() {
+  const dialogRef = useRef(null);
   return (
     <>
       <div>
@@ -66,7 +70,7 @@ export default function Header() {
                     Ar
                   </button>
                 </div>
-                <button className="btn btn-gold ms-2" id="btn-gold-main">
+                <button className="btn btn-gold ms-2" id="btn-gold-main" onClick={() => dialogRef.current?.open()}>
                   Request Consultation
                 </button>
               </div>
@@ -286,6 +290,7 @@ export default function Header() {
           </div>
         </div> */}
       </div>
+      <Modelrequest ref={dialogRef} />
     </>
   );
 };

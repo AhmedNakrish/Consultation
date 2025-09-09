@@ -1,22 +1,36 @@
 import React from "react";
 import Link from "next/link";
-const Breadcrumb = ({name}) => {
+
+const Breadcrumb = ({ name, chiled }) => {
   return (
-    <>
-      <nav aria-label="breadcrumb" className="breadcrumb-nav">
-        <ol className="breadcrumb-container">
+    <nav aria-label="breadcrumb" className="breadcrumb-nav">
+      <ol className="breadcrumb-container">
+        <li className="breadcrumb-item">
+          <Link href="/en" className="breadcrumb-link">
+            Home
+          </Link>
+        </li>
+
+        {/* يظهر لو فيه parent */}
+        {name && (
           <li className="breadcrumb-item">
-            <Link href="/en" className="breadcrumb-link">
-              Home{" "}
+            <Link href={`/en/${name}`} className="breadcrumb-link" >
+              {name}
             </Link>
           </li>
-          <li className="breadcrumb-item breadcrumb-active" aria-current="page">
-            <h1> {name}</h1>
+        )}
+
+       
+        {chiled && (
+          <li
+            className="breadcrumb-item breadcrumb-active"
+            aria-current="page"
+          >
+            <h1>{chiled}</h1>
           </li>
-        </ol>
-      </nav>
-      ;
-    </>
+        )}
+      </ol>
+    </nav>
   );
 };
 

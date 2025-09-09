@@ -28,7 +28,7 @@ const Servicespage = () => {
                 </div>
               </div>
             </a>
-            <a href="accounting-services.php" className="service-card-link">
+            <a href={`/en/services/${3}/fd`} className="service-card-link">
               <div
                 className=" category-card category-card-right"
                 style={{ backgroundImage: 'url("/assets/images/img2.png")' }}

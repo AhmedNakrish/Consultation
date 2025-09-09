@@ -283,7 +283,28 @@ p {
   justify-content: center;
   align-items: center;
 }
-
+dialog.dialog-box {
+    width: 100%;
+    max-width: 500px;
+    border: none;
+    border-radius: 20px;
+    transition: all .3s ease;
+    padding: 40px;
+}
+dialog.dialog-box::backdrop {
+    background-color: #3b3b3b9c;
+    backdrop-filter: blur(22px);
+}
+.dialog-header {
+    padding-bottom: 20px;
+    
+}
+h5.dialog-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c3e50;
+  
+}
 .hero-btns .circle i {
   font-size: 1.3rem;
   transform: rotate(315deg);

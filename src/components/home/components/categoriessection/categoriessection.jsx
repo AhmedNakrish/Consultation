@@ -1,5 +1,5 @@
 import React from "react";
-
+import Link from "next/link";
 const Categoriessection = () => {
   return (
     <>
@@ -30,8 +30,8 @@ const Categoriessection = () => {
             >
               <div className="category-content">
                 <h3>Professional Accounting Services for Your Business</h3>
-                <a
-                  href="#"
+                <Link
+                  href="/en"
                   className="explore-btn d-flex align-items-center gap-2 position-relative overflow-hidden"
                 >
                   Explore
@@ -49,7 +49,7 @@ const Categoriessection = () => {
                       />
                     </svg>
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
             <div

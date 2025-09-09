@@ -1,6 +1,10 @@
-import React from 'react'
+"use client"; 
 
+import Link from 'next/link';
+import React, { useRef } from "react";
+import Modelrequest from './modelrequest';
 const Herosection = () => {
+  const dialogRef = useRef(null);
   return (
     <>
       <section className="hero-section">
@@ -70,13 +74,15 @@ const Herosection = () => {
               data-aos-delay={300}
               data-aos-duration={1000}
             >
-              <button className="btn btn-gold">Request Consultation</button>
+              <button className="btn btn-gold" data-bs-toggle="modal" data-bs-target="#consultationModal" 
+              onClick={() => dialogRef.current?.open()}>Request Consultation</button>
+             
               <div className="circle ms-1">
                 <i className="fa-solid fa-arrow-right-long" />
               </div>
-              <a href="contact.php" className="btn ms-2 btn-outline-hero">
+              <Link href="/en/contact" className="btn ms-2 btn-outline-hero">
                 Contact Us{" "}
-              </a>
+              </Link>
             </div>
           </div>
           <div
@@ -95,16 +101,20 @@ const Herosection = () => {
           data-aos-delay={400}
           data-aos-duration={1000}
         >
-          <a
+          <Link
             href="https://wa.me/1234567890"
             className="whatsapp-icon"
             target="_blank"
             aria-label="Chat on WhatsApp"
           >
             <i className="fa-brands fa-whatsapp" />
-          </a>
+          </Link>
         </div>
+        
       </section>
+       <Modelrequest ref={dialogRef} />
+     
+
     </>
   );
 }
