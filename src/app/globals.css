@@ -1144,10 +1144,16 @@ h5.dialog-title {
 }
 
 .price-annually {
-  display: none;
+  /* display: none; */
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-
+ .price-annually {
+    font-size: 20px;
+    text-decoration: line-through;
+}
+span.price-annually svg {
+    max-width: 14px;
+}
 .price-annually.active {
   display: inline;
   animation: fadeInUp 0.3s ease;
@@ -1194,6 +1200,7 @@ h5.dialog-title {
   background: #fff;
   border-radius: 12px;
   padding: 0 24px 24px 24px;
+  width:100%;
   /* width: 360px; */
   border: 1px solid #a8b0b980;
   backdrop-filter: blur(4px);

@@ -1,6 +1,29 @@
-import React from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-const Selectsection = () => {
+const Selectsection = ({data}) => {
+  const dialogRef = useRef(null);
+  
+     const [calc, setCalc] = useState(null);
+    const [loading, setLoading] = useState(true); // optional
+    const [error, setError] = useState(null); // optional
+          console.log("cala" , calc)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axiosInstance.get("/api/v1/packages/calculate-price-for-custom-package");
+        setCalc(res?.data?.data || {});
+      } catch (err) {
+        console.error("Failed to fetch settings data:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
   return (
     <>
       <div className="custom-package-section">

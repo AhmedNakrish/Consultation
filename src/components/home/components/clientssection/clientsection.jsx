@@ -22,18 +22,15 @@ const Clientsection = () => {
             data-aos-delay={100}
           >
             <Swiper
-             modules={[Autoplay]}
+              modules={[Autoplay]}
               spaceBetween={50}
               slidesPerView={4}
-              onSlideChange={() => console.log("slide change")}
-              onSwiper={(swiper) => console.log(swiper)}
               loop={true}
-       autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-      speed={3000}
-      
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+              speed={3000}
             >
               <SwiperSlide>
                 <img src="assets/images/Google.png" alt="Google Logo" />
@@ -50,8 +47,6 @@ const Clientsection = () => {
               <SwiperSlide>
                 <img src="assets/images/Stripe.png" alt="Stripe Logo" />
               </SwiperSlide>
-             
-
             </Swiper>
           </div>
         </div>

@@ -1,10 +1,13 @@
-"use client"; 
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 import React, { useRef } from "react";
-import Modelrequest from './modelrequest';
-const Herosection = () => {
+import Modelrequest from "./modelrequest";
+const Herosection = ({ data = [] }) => {
   const dialogRef = useRef(null);
+
+  console.log("data:::", data);
+
   return (
     <>
       <section className="hero-section">
@@ -64,9 +67,10 @@ const Herosection = () => {
               data-aos-delay={200}
               data-aos-duration={1000}
             >
-              We provide comprehensive advisory services in legal, financial,
+              {/* We provide comprehensive advisory services in legal, financial,
               and business domains, helping you make informed decisions backed
-              by deep expertise and market insight.
+              by deep expertise and market insight. */}
+              {data?.home_intro_description}
             </div>
             <div
               className="hero-btns"
@@ -74,9 +78,15 @@ const Herosection = () => {
               data-aos-delay={300}
               data-aos-duration={1000}
             >
-              <button className="btn btn-gold" data-bs-toggle="modal" data-bs-target="#consultationModal" 
-              onClick={() => dialogRef.current?.open()}>Request Consultation</button>
-             
+              <button
+                className="btn btn-gold"
+                data-bs-toggle="modal"
+                data-bs-target="#consultationModal"
+                onClick={() => dialogRef.current?.open()}
+              >
+                Request Consultation
+              </button>
+
               <div className="circle ms-1">
                 <i className="fa-solid fa-arrow-right-long" />
               </div>
@@ -91,7 +101,7 @@ const Herosection = () => {
             data-aos-duration={1000}
           >
             <div className="hero-img-arch">
-              <img src="./assets/images/hero.jpg" alt="Consulting Hero" />
+              <img src={data?.header_image} alt="Consulting Hero" />
             </div>
           </div>
         </div>
@@ -110,13 +120,10 @@ const Herosection = () => {
             <i className="fa-brands fa-whatsapp" />
           </Link>
         </div>
-        
       </section>
-       <Modelrequest ref={dialogRef} />
-     
-
+      <Modelrequest ref={dialogRef} />
     </>
   );
-}
+};
 
-export default Herosection
+export default Herosection;

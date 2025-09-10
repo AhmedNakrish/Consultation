@@ -1,6 +1,10 @@
-import React from "react";
+"use client"; 
+import React, { useRef } from "react";
+import Modelrequest from "../herosection/modelrequest";
+
 
 const Contactlocationsection = () => {
+    const dialogRef = useRef(null);
   return (
     <>
       <section className="contact-location-section">
@@ -41,7 +45,7 @@ const Contactlocationsection = () => {
               data-aos-delay={300}
               data-aos-duration={1000}
             >
-              <button className="btn btn-gold">Request Consultation</button>
+              <button className="btn btn-gold"  onClick={() => dialogRef.current?.open()}>Request Consultation</button>
               <a href="/en/contact" className="btn btn-outline-contact">
                 Contact Us
               </a>
@@ -62,6 +66,7 @@ const Contactlocationsection = () => {
           </div>
         </div>
       </section>
+       <Modelrequest ref={dialogRef} />
     </>
   );
 };
