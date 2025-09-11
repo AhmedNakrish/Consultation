@@ -1,9 +1,13 @@
 import React from "react";
 import Link from "next/link";
 
-const Breadcrumb = ({ name, chiled }) => {
+const Breadcrumb = ({ name, chiled, image }) => {
   return (
-    <nav aria-label="breadcrumb" className="breadcrumb-nav">
+    <nav
+      aria-label="breadcrumb"
+      className="breadcrumb-nav"
+      style={image ? { background: `url(${image})`, backgroundSize: 'cover' } : {}}
+    >
       <ol className="breadcrumb-container">
         <li className="breadcrumb-item">
           <Link href="/en" className="breadcrumb-link">
@@ -11,16 +15,14 @@ const Breadcrumb = ({ name, chiled }) => {
           </Link>
         </li>
 
-        {/* يظهر لو فيه parent */}
         {name && (
           <li className="breadcrumb-item">
-            <Link href={`/en/${name}`} className="breadcrumb-link" >
+            <Link href={`/en/${name}`} className="breadcrumb-link">
               {name}
             </Link>
           </li>
         )}
 
-       
         {chiled && (
           <li
             className="breadcrumb-item breadcrumb-active"

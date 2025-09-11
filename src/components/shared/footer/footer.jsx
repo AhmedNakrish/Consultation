@@ -9,7 +9,7 @@ const footer = () => {
     <div className="hero-bg-layer layer1" />
     <div className="hero-bg-layer layer2" />
     <div className="footer-content px-1">
-      <Image src="assets/images/footer-logo.svg" alt="Consulting Logo" className="footer-logo-img" width={320} height={50}/>
+      <Image src="/assets/images/footer-logo.svg" alt="Consulting Logo" className="footer-logo-img" width={320} height={50}/>
       <p className="footer-desc">
         We provide comprehensive advisory services in legal, financial, and business domains, helping you make informed
         decisions backed by deep expertise and market insight.
@@ -34,7 +34,7 @@ const footer = () => {
       </div>
       <div className="footer-partner">
         <Link href="https://puiux.com/" rel="noopener noreferrer" target="_blank" className="footer-partner-logo">
-          <Image src="assets/images/PUIUX.svg" alt="Consulting Logo" className="footer-logo-img" width={117} height={48}/>
+          <Image src="/assets/images/PUIUX.svg" alt="Consulting Logo" className="footer-logo-img" width={117} height={48}/>
         </Link>
       </div>
     </div>

@@ -1,29 +1,53 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-const Selectsection = ({data}) => {
-  const dialogRef = useRef(null);
-  
-     const [calc, setCalc] = useState(null);
-    const [loading, setLoading] = useState(true); // optional
-    const [error, setError] = useState(null); // optional
-          console.log("cala" , calc)
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axiosInstance.get("/api/v1/packages/calculate-price-for-custom-package");
-        setCalc(res?.data?.data || {});
-      } catch (err) {
-        console.error("Failed to fetch settings data:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+import Modelrequest from "../herosection/modelrequest";
+import axiosInstance from "@/lib/axiosInstance";
 
-    fetchData();
-  }, []);
-  
+const Selectsection = ({ data }) => {
+  const dialogRef = useRef(null);
+
+  const [calc, setCalc] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  // form state for selects
+  const [formData, setFormData] = useState({
+    type: "", // tax_&_zakat OR accounting
+    subscription_type: "", // yearly OR monthly
+    days_per_week: "",
+    hours_per_day: "",
+  });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axiosInstance.post(
+        "/api/v1/packages/calculate-price-for-custom-package",
+        {
+          type: formData.type,
+          subscription_type: formData.subscription_type,
+          days_per_week: formData.days_per_week,
+          hours_per_day: formData.hours_per_day,
+        }
+      );
+      setCalc(res?.data?.data || {});
+    } catch (err) {
+      console.error("❌ Failed to fetch calculation:", err);
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="custom-package-section">
@@ -45,95 +69,121 @@ const Selectsection = ({data}) => {
                 <br />
                 Based on Your Needs
               </h2>
-              <div className="custom-package-price">
-                <span className="price-amount">27</span>
-                <span className="price-original">30</span>
-                <span className="price-currency">
-                  <svg
-                    width={23}
-                    height={29}
-                    viewBox="0 0 23 29"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M13.6721 25.3188C13.3552 26.1405 13.1457 27.0322 13.0654 27.9673L19.7716 26.3003C20.0885 25.4788 20.2978 24.5869 20.3782 23.6519L13.6721 25.3188Z"
-                      fill="#B68F0E"
-                    />
-                    <path
-                      d="M21.7582 21.9167C22.1511 20.8696 22.4109 19.7328 22.5104 18.5408L16.0327 20.1969V17.0133L21.758 15.5508C22.1509 14.5036 22.4107 13.3668 22.5102 12.1748L16.0326 13.8295V2.38041C15.04 3.05033 14.1585 3.94206 13.4419 4.99391V14.4916L10.8513 15.1535V0.823242C9.85872 1.49292 8.97722 2.38489 8.26066 3.43674V15.8152L2.46411 17.2959C2.07116 18.343 1.81121 19.4799 1.71151 20.6718L8.26066 18.9988V23.0079L1.24196 24.8008C0.849006 25.8479 0.589258 26.9848 0.489746 28.1768L7.83636 26.3C8.43441 26.1505 8.94843 25.7255 9.28261 25.1406L10.6299 22.7395V22.739C10.7698 22.4906 10.8513 22.1911 10.8513 21.8685V18.3369L13.4419 17.675V24.0421L21.758 21.9163L21.7582 21.9167Z"
-                      fill="#B68F0E"
-                    />
-                  </svg>
-                </span>
-              </div>
+
+              {/* Show calculation result */}
+          {/* Show calculation result */}
+<div className="custom-package-price">
+  {loading ? (
+    <span className="price-amount">Loading...</span>
+  ) : calc?.price ? (
+    <>
+      {/* Discounted price */}
+      <span className="price-amount">{calc.price_with_discount}</span>
+
+      {/* Original price with strikethrough if discount exists */}
+      {calc.discount_percentage > 0 && (
+        <span className="price-original">
+          {calc.price}
+        </span>
+      )}
+
+      {/* Discount percentage */}
+      {calc.discount_percentage > 0 && (
+        <span className="price-discount">
+          -{calc.discount_percentage}%
+        </span>
+      )}
+    </>
+  ) : (
+    <span className="price-amount">--</span>
+  )}
+  <span className="price-currency">SAR</span>
+</div>
+
+
               <p className="custom-package-desc">
                 We provide comprehensive advisory services in legal, financial,
                 and business domains.
               </p>
+
               <div className="custom-package-actions">
+                {/* Service type */}
                 <select
-                  id="service-select"
+                  id="type"
                   className="custom-package-select"
+                  value={formData.type}
+                  onChange={handleChange}
                   required
                 >
-                  <option value disabled  hidden>
+                  <option value="" disabled hidden>
                     Select Service
                   </option>
-                  <option value="tax">Tax and Zakat</option>
+                  <option value="tax_&_zakat">Tax and Zakat</option>
                   <option value="accounting">Accounting</option>
                 </select>
+
+                {/* Subscription type */}
                 <select
-                  id="duration-select"
+                  id="subscription_type"
                   className="custom-package-select"
-                  style={{ display: "none" }}
+                  value={formData.subscription_type}
+                  onChange={handleChange}
                   required
                 >
-                  <option value disabled hidden>
+                  <option value="" disabled hidden>
                     Package Duration
                   </option>
-                  <option value={1}>Monthly</option>
-                  <option value={3}>Yearly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="yearly">Yearly</option>
                 </select>
+
+                {/* Days per week */}
                 <select
-                  id="days-select"
+                  id="days_per_week"
                   className="custom-package-select mb-3"
-                  style={{ display: "none" }}
+                  value={formData.days_per_week}
+                  onChange={handleChange}
                   required
                 >
-                  <option value disabled  hidden>
+                  <option value="" disabled hidden>
                     Number of Days
                   </option>
-                  <option value={1}>1 Day</option>
-                  <option value={2}>2 Days</option>
-                  <option value={3}>3 Days</option>
-                  <option value={4}>4 Days</option>
-                  <option value={5}>5 Days</option>
-                  <option value={6}>6 Days</option>
+                  {[1, 2, 3, 4, 5, 6].map((d) => (
+                    <option key={d} value={d}>
+                      {d} Day{d > 1 ? "s" : ""}
+                    </option>
+                  ))}
                 </select>
+
+                {/* Hours per day */}
                 <select
-                  id="hours-select"
+                  id="hours_per_day"
                   className="custom-package-select mb-3"
-                  style={{ display: "none" }}
+                  value={formData.hours_per_day}
+                  onChange={handleChange}
                   required
                 >
-                  <option value disabled  hidden>
+                  <option value="" disabled hidden>
                     Number of Hours
                   </option>
-                  <option value={1}>1 Hour</option>
-                  <option value={2}>2 Hours</option>
-                  <option value={3}>3 Hours</option>
-                  <option value={4}>4 Hours</option>
-                  <option value={5}>5 Hours</option>
-                  <option value={6}>6 Hours</option>
-                  <option value={7}>7 Hours</option>
-                  <option value={8}>8 Hours</option>
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((h) => (
+                    <option key={h} value={h}>
+                      {h} Hour{h > 1 ? "s" : ""}
+                    </option>
+                  ))}
                 </select>
-                <button type="button" className="btn btn-submit">
-                  Request Package
+
+                <button
+                  type="button"
+                  className="btn btn-submit"
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
+                  {loading ? "Calculating..." : "Request Package"}
                 </button>
               </div>
             </div>
+
             <div
               className="custom-package-image"
               data-aos="fade-left"

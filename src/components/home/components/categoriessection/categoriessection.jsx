@@ -9,7 +9,6 @@ const Categoriessection = ({ data }) => {
    const [dataser, setDataser] = useState(null);
   const [loading, setLoading] = useState(true); // optional
   const [error, setError] = useState(null); // optional
-        console.log("dataser" , dataser)
 
   useEffect(() => {
     const fetchData = async () => {

@@ -6,7 +6,6 @@ import Modelrequest from "./modelrequest";
 const Herosection = ({ data = [] }) => {
   const dialogRef = useRef(null);
 
-  console.log("data:::", data);
 
   return (
     <>

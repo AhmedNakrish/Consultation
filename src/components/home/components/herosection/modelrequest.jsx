@@ -30,7 +30,6 @@ const Modelrequest = forwardRef((props, ref) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
     dialogRef.current?.close();
   };
 

@@ -1,9 +1,34 @@
 "use client";
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import axiosInstance from "@/lib/axiosInstance";
+import Image from "next/image";
+import Link from "next/link";
 
-const Clientsection = () => {
+const Clientsection = ({ data }) => {
+  const dialogRef = useRef(null);
+  const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await axiosInstance.get(`/api/v1/clients`);
+        setClients(res?.data?.data || []);
+      } catch (err) {
+        console.error("Failed to fetch package data:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <section className="clients-section">
@@ -32,21 +57,13 @@ const Clientsection = () => {
               }}
               speed={3000}
             >
-              <SwiperSlide>
-                <img src="assets/images/Google.png" alt="Google Logo" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="assets/images/Pinterest.png" alt="Pinterest Logo" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="assets/images/Spotify.png" alt="Spotify Logo" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="assets/images/Reddit.png" alt="Reddit Logo" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="assets/images/Stripe.png" alt="Stripe Logo" />
-              </SwiperSlide>
+              {clients?.map((item) => (
+                <SwiperSlide key={item.id}>
+                  <Link href={item.link}  >
+                  <Image src={item.logo} alt="Google Logo" width={100} height={100}   />
+                  </Link>
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
         </div>

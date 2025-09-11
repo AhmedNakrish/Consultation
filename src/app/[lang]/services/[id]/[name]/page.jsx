@@ -2,103 +2,56 @@
 import { useParams } from "next/navigation";
 import Breadcrumb from "@/components/shared/breadcrumb/breadcrumb";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getServiceById } from "@/hooks/getServiceById";
 const page = () => {
   const { id, name } = useParams();
+  const [service, setService] = useState(null);
+  console.log(service);
+  useEffect(() => {
+    getServiceById(id)
+      .then((data) => setService(data.data))
+      .catch((err) => console.error(err));
+  }, [id]);
+
+  if (!service) return <p>Loading...</p>;
+
   return (
     <>
-     
-      <Breadcrumb name="services" chiled={name} />
+      <Breadcrumb name="services" chiled={name} image={service.image} />
 
       <main className="accounting-services-page">
         <div className="container">
           <header className="text-center mb-5" data-aos="fade-up">
-            <h1 className="page-title">Professional Accounting Services</h1>
-            <p className="lead text-muted">
-              Streamline your financial operations with our expert accounting
-              solutions tailored for your business success and growth.
-            </p>
+            <h1 className="page-title">{service.name}</h1>
+            <p className="lead text-muted">{service.description}</p>
           </header>
           <section className="services-overview mb-5">
             <div className="row">
-              <div
-                className="col-md-6 mb-4"
-                data-aos="fade-up"
-                data-aos-delay={100}
-              >
-                <div className="service-card p-4 fade-in-up">
-                  <h2 className="service-title">Bookkeeping Services</h2>
-                  <p>
-                    Accurate and timely bookkeeping to keep your financial
-                    records organized and compliant with industry standards.
-                  </p>
-                  <ul className="service-features">
-                    <li>Real-time transaction recording and categorization</li>
-                    <li>Monthly financial reports and analysis</li>
-                    <li>Bank reconciliation and cash flow management</li>
-                    <li>Digital receipt management and storage</li>
-                  </ul>
+              {service.features?.map((item) => (
+                <div
+                  key={item.id}
+                  className="col-md-6 mb-4"
+                  data-aos="fade-up"
+                  data-aos-delay={100}
+                >
+                  <div className="service-card p-4 fade-in-up">
+                    <h2 className="service-title">{item.title}</h2>
+                    <p>{item.description}</p>
+                    
+                      {item.advantages?.map((adv)=>(
+                         <ul className="service-features" key={adv.id}>
+                          <li>
+                       {adv.description}
+                      </li>
+                          </ul>
+                      ))}
+                      
+                      
+                   
+                  </div>
                 </div>
-              </div>
-              <div
-                className="col-md-6 mb-4"
-                data-aos="fade-up"
-                data-aos-delay={200}
-              >
-                <div className="service-card p-4 fade-in-up">
-                  <h2 className="service-title">
-                    Tax Preparation &amp; Planning
-                  </h2>
-                  <p>
-                    Maximize deductions and ensure compliance with our
-                    comprehensive tax services and strategic planning.
-                  </p>
-                  <ul className="service-features">
-                    <li>Corporate and individual tax returns</li>
-                    <li>Strategic tax planning and optimization</li>
-                    <li>IRS audit support and representation</li>
-                    <li>Quarterly tax estimates and filings</li>
-                  </ul>
-                </div>
-              </div>
-              <div
-                className="col-md-6 mb-4"
-                data-aos="fade-up"
-                data-aos-delay={300}
-              >
-                <div className="service-card p-4 fade-in-up">
-                  <h2 className="service-title">Payroll Management</h2>
-                  <p>
-                    Simplify payroll processing with our efficient, secure, and
-                    compliant payroll solutions.
-                  </p>
-                  <ul className="service-features">
-                    <li>Automated employee payment processing</li>
-                    <li>Tax withholding and government filings</li>
-                    <li>Comprehensive payroll reporting</li>
-                    <li>Employee self-service portal access</li>
-                  </ul>
-                </div>
-              </div>
-              <div
-                className="col-md-6 mb-4"
-                data-aos="fade-up"
-                data-aos-delay={400}
-              >
-                <div className="service-card p-4 fade-in-up">
-                  <h2 className="service-title">Financial Consulting</h2>
-                  <p>
-                    Strategic financial advice to optimize your performance,
-                    drive growth, and achieve your business goals.
-                  </p>
-                  <ul className="service-features">
-                    <li>Advanced budgeting and forecasting</li>
-                    <li>Cash flow analysis and optimization</li>
-                    <li>Business valuation and financial modeling</li>
-                    <li>Financial risk assessment and management</li>
-                  </ul>
-                </div>
-              </div>
+              ))}
             </div>
           </section>
           {/* Process Section */}

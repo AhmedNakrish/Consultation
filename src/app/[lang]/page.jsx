@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import Herosection from "@/components/home/components/herosection/herosection";
 import Statessection from "@/components/home/components/statessection/statessection";
 import Categoriessection from "@/components/home/components/categoriessection/categoriessection";
@@ -32,7 +31,6 @@ const Homepage = () => {
 
     fetchData();
   }, []);
-  console.log(data);
 
   return (
     <div>
