@@ -4,19 +4,41 @@ import Image from "next/image";
 
 export default function Register() {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState(""); // ✅ state for Name
+  const [phone, setPhone] = useState(""); // ✅ state for Phone
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
+    const payload = {
+      email,
+      name,
+      phone,
+      password,
+      rememberMe,
+    };
 
-    // Example: call API
-    // fetch("/api/register", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ email, password, rememberMe }),
-    // });
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      console.log("API Response:", data);
+
+      if (res.ok) {
+        alert("✅ Registered successfully!");
+      } else {
+        alert("❌ Registration failed: " + (data.message || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      alert("❌ Something went wrong.");
+    }
   };
 
   return (
@@ -48,6 +70,38 @@ export default function Register() {
             />
           </div>
 
+          {/* Name input */}
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your Name"
+              required
+            />
+          </div>
+
+          {/* Phone input */}
+          <div className="mb-3">
+            <label htmlFor="phone" className="form-label">
+              Phone
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Enter your phone number"
+              required
+            />
+          </div>
+
           {/* Password input */}
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
@@ -64,7 +118,19 @@ export default function Register() {
             />
           </div>
 
-         
+          {/* Remember me */}
+          <div className="mb-3 form-check">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="rememberMe"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="rememberMe">
+              Remember me
+            </label>
+          </div>
 
           {/* Register button */}
           <button type="submit" className="btn w-100 login-btn">

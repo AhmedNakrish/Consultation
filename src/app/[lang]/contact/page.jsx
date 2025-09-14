@@ -81,7 +81,8 @@ const Contactpage = () => {
               <h2 className="contact-title">
                 Strategically Located
                 <br />
-                to Serve You <span className="contact-highlight-green">Better</span>
+                to Serve You{" "}
+                <span className="contact-highlight-green">Better</span>
               </h2>
               <p className="contact-desc">
                 We proudly serve clients across multiple regions in Saudi

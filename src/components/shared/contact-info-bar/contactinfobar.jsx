@@ -1,6 +1,30 @@
-import React from "react";
+"use client";
+import axiosInstance from "@/lib/axiosInstance";
+import React, { useEffect, useRef, useState } from "react";
 
-const contactinfo = () => {
+const contactinfo = ({ data }) => {
+  const dialogRef = useRef(null);
+  const [contactinfo, setContactinfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axiosInstance.get("/api/v1/settings?key=contacts");
+        //console.log("API Response:", res.data); // 👈 هنا تقدر تشوف الـ parameters
+        setContactinfo(res?.data?.data || {}); // store data properly
+      } catch (err) {
+        console.error("Failed to fetch settings data:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="contact-info-bar">
@@ -28,7 +52,7 @@ const contactinfo = () => {
             target="_blank"
             className="contact-info-text"
           >
-            Your location is written here in this space.
+            {contactinfo?.location}
           </a>
         </div>
         <span className="contact-info-separator" />
@@ -48,7 +72,7 @@ const contactinfo = () => {
             </svg>
           </span>
           <a href="mailto:consulting@gmail.com" className="contact-info-text">
-            consulting@gmail.com
+            {contactinfo?.email}
           </a>
         </div>
         <span className="contact-info-separator" />
@@ -68,7 +92,7 @@ const contactinfo = () => {
             </svg>
           </span>
           <a href="tel:+9661234560789" className="contact-info-text">
-            +966 123 456 0789
+            {contactinfo?.phone}
           </a>
         </div>
         <span className="contact-info-separator" />
@@ -108,7 +132,7 @@ const contactinfo = () => {
             </svg>
           </span>
           <a href="tel:+9661234560789" className="contact-info-text">
-            +966 123 456 0789
+            {contactinfo?.whatsapp}
           </a>
         </div>
       </div>

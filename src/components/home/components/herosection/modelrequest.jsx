@@ -1,6 +1,13 @@
 "use client";
-import React, { useState, useRef, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import Link from "next/link";
+import axiosInstance from "@/lib/axiosInstance";
+import { toast } from "react-toastify";
 
 const Modelrequest = forwardRef((props, ref) => {
   const [formData, setFormData] = useState({
@@ -9,18 +16,21 @@ const Modelrequest = forwardRef((props, ref) => {
     phone: "",
     service: "",
     message: "",
-    policy_agree: false,
+    agree_policy: false,
   });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
 
   const dialogRef = useRef(null);
 
-  // expose functions to parent
+  // expose functions to parents
   useImperativeHandle(ref, () => ({
     open: () => dialogRef.current?.showModal(),
     close: () => dialogRef.current?.close(),
   }));
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
@@ -28,9 +38,46 @@ const Modelrequest = forwardRef((props, ref) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dialogRef.current?.close();
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      const res = await axiosInstance.post(
+        "/api/v1/send-request-consultation",
+        formData
+      );
+
+      console.log("API Response:", res.data);
+
+      if (res.status === 200 || res.status === 201) {
+        setSuccess("✅ Consultation request sent successfully!");
+        toast.success(
+          res.data?.message || "✅ Consultation request sent successfully!"
+        );
+
+        // تفضّل تقفل الـ dialog بعد النجاح
+        dialogRef.current?.close();
+        // ممكن تفضّل تمسح الفورم
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          service: "",
+          message: "",
+          agree_policy: false,
+        });
+      } else {
+        setError("❌ Something went wrong, please try again.");
+      }
+    } catch (err) {
+      console.error("Failed to send consultation:", err);
+      setError("❌ Failed to send request.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -130,8 +177,8 @@ const Modelrequest = forwardRef((props, ref) => {
             <label className="policy-checkbox mt-2">
               <input
                 type="checkbox"
-                name="policy_agree"
-                checked={formData.policy_agree}
+                name="agree_policy"
+                checked={formData.agree_policy}
                 onChange={handleChange}
                 required
               />
@@ -143,9 +190,16 @@ const Modelrequest = forwardRef((props, ref) => {
               </span>
             </label>
 
-            <button type="submit" className="btn btn-submit w-100 mt-3">
-              Send Request
+            <button
+              type="submit"
+              className="btn btn-submit w-100 mt-3"
+              disabled={loading}
+            >
+              {loading ? "Sending..." : "Send Request"}
             </button>
+
+            {success && <p className="text-success mt-2">{success}</p>}
+            {error && <p className="text-danger mt-2">{error}</p>}
           </div>
         </form>
       </div>
